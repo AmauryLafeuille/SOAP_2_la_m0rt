@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
   knex('state').insert({state: 'breakdown'}),
   //en cours de dépannage
   knex('state').insert({state: 'repairing'}),
-  //phase de repose
+  //phase de repos
   knex('state').insert({state: 'rest stage'})
 };
 
