@@ -8,21 +8,31 @@
 module.exports = {
 
   attributes: {
-      name: {
+      login: {
             type: 'string',
             required: true,
-            minLength: 3
+            minLength: 3,
+            unique:true,
         },
-        email: {
-            type: 'email',
-            required: true,
-            unique: true
-        },
+
         password: {
             type: 'string',
             required: true
         },
-
+        accountType: {
+            model:'AccountType',
+            required: true,
+        },
+        lastname: {
+            type: 'string',
+            required: true,
+            unique: true
+        },
+        firstname: {
+            type:'string',
+            required: true,
+            unique: true
+        },
   }
 };
 
