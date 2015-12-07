@@ -11,8 +11,8 @@ module.exports = {
       immatricul: {
             type: 'string',
             required: true,
-            minLength: 3,
-        },
+            minLength: 3
+        }
   }
 };
 
