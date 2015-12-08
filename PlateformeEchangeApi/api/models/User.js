@@ -21,7 +21,7 @@ module.exports = {
         },
         accountType: {
             model:'AccountType',
-            required: true,
+            //required: true,
         },
         lastname: {
             type: 'string',

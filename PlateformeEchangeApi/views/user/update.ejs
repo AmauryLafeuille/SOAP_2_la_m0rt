@@ -1,0 +1,8 @@
+<a href="/user/index">List</a>
+        <h2>Person #<%=user.login %> Update form</h2>
+        <form action="/user/update/<%=user.id %>" method="POST">
+        <table>
+        
+        <tr><td>Login<td><input type="text" name="User[login]" value="<%=user.login %>"><br/>
+        <tr ><td><td><input type="submit" value="SAVE">
+        </form>
