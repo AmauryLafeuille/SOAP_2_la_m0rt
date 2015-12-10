@@ -67,7 +67,7 @@ config/connections.js
 
 node_modules
 bower_components
-
+config/connections.js
 
 
 
