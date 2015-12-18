@@ -1,22 +1,18 @@
 /**
-* Vehicle.js
+* Skill.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+
 module.exports = {
 
   attributes: {
-      immatricul: {
-            model:'Immatricul'
+		levelSkill: {
+            type: 'int',
+            required: false,
         },
-        stateVehicle: {
-            model: 'StateVehicle',
-        },
-        usedBy: {
-            model :'User',
-        }
   }
 };
 

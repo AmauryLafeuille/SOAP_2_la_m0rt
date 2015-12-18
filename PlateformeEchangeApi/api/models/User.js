@@ -33,6 +33,9 @@ module.exports = {
             required: true,
             unique: true
         },
+        skill: {
+            model: 'Skill',
+        },
   }
 };
 

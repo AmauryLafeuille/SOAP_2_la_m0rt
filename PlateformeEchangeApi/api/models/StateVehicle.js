@@ -1,5 +1,5 @@
 /**
-* Vehicle.js
+* State.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -8,15 +8,14 @@
 module.exports = {
 
   attributes: {
-      immatricul: {
-            model:'Immatricul'
+      stateVehicle: {
+            type: 'int',
+            required: true,
+            unique:true,
         },
-        stateVehicle: {
-            model: 'StateVehicle',
+        levelBreakdown: {
+            model: 'levelBreakdown',
         },
-        usedBy: {
-            model :'User',
-        }
   }
 };
 

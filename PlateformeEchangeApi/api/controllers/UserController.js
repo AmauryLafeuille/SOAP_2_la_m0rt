@@ -37,6 +37,7 @@ module.exports = {
 
   //Show user
   view: function (req, res) {
+    console.log("user view");
     var id=req.param("id",null);
     User.findOne(id,function(err,model){
       res.render( 'user/view',{'model':model});     
@@ -46,9 +47,12 @@ module.exports = {
   //Update User
   update: function (req, res) {
     var id=req.param("id",null);
-    if(req.method=="POST"&&req.param(User,null)!=null)
+    console.log("test" + req.param);
+    if(req.method=="POST")//&&req.param(User,null)!=null)
       {
+        console.log("update post");
         var p=req.param(User,null);
+        console.log(req.param);
         user.name=p.name;
         user.save(function(err){
           if (err) {
@@ -60,6 +64,7 @@ module.exports = {
       }
       else
       {
+        console.log("update else");
         User.findOne(id,function(err,user){
         res.render( 'user/update',{'user':user});     
     });
