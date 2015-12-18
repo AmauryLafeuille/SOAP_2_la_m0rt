@@ -37,7 +37,6 @@ module.exports = {
 
   //Show user
   view: function (req, res) {
-    console.log("user view");
     var id=req.param("id",null);
     User.findOne(id,function(err,model){
       res.render( 'user/view',{'model':model});     
@@ -80,7 +79,17 @@ module.exports = {
       res.redirect( 'user/index/');
       });
     });
+  },
+
+      //registration user
+  registration: function (req, res) {
+    if( req.method=="POST" && req.param("User",null) !=null){
+      
+    }
+    // res.redirect( 'user/registration/');
+    
   }
+  
 };
 
 

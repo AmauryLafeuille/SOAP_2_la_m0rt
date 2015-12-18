@@ -35,7 +35,6 @@ module.exports.routes = {
   '/': {
       controller:'user',
       action:'index',
-
     },
 
 
