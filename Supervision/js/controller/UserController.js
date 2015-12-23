@@ -3,34 +3,44 @@
  */
 angular.module('UserCtrl', [])
 
-.controller('UserCtrl', ['$scope','$http','$route', function($scope,$http,$route) {
-
-
+.controller('UserCtrl', ['$scope','$http','$route','$window', function($scope,$http,$route,$window) {
   	 $scope.connection = function(user) {
-  	 		
-
+  	 		console.log("Connection");
   	 		var successCallback = function(user){
-  	 			$scope.userReponse = user.data[0];
-  	 			sessionStorage.user = user.data[0];  	 		
-  	 		}
+          // Si user exist in bdd
+          if(user.data[0]){
+            var loginBdd = user.data[0].login;
+            var passwordBdd = user.data[0].password;  
+            if(loginBdd == $scope.user.login && passwordBdd == $scope.user.password){
+              sessionStorage.user = user.data[0];
+              console.log("User connected");
+              $window.location.href = '#/user/';
+            }
+          }else{
+            console.log("User / password incorrect");
+          }
+        }
+
   	 		var errorCallback = function(user){
   	 			console.log("Erreur");
   	 		}
+
   	 		$http.get('http://localhost:1337/user?login='+$scope.user.login)
   	 		.then(successCallback, errorCallback);
-
-  	 		if(sessionStorage){
-  	 			console.log('Connecté');
-  	 		}
-
       };
 
 
       $scope.deconnection = function(){
-      	console.log("deconnection");
+      	console.log("Déconnection");
       	sessionStorage.clear();
       	console.log(sessionStorage);
       	$route.reload();
+      };
+
+
+      $scope.isConnected = function(){
+        console.log("isConnected");
+        $scope.user = sessionStorage.user;
       };
 
 }]);

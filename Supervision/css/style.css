@@ -1,5 +1,10 @@
 .myContent
 {
 	margin-top: 2%;
-	width: 70%;
+	width: 75%;
+}
+
+.myContent > pre
+{
+	margin-left:25%;
 }

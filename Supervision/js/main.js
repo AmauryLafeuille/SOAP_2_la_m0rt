@@ -15,8 +15,9 @@ var app = angular.module('tutorialWebApp', [
  */
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
-    // Home
+    // Index
     .when("/", {templateUrl: "partials/User/registration.html", controller: "UserCtrl"})
+    .when("/user/", {templateUrl: "partials/User/isConnected.html", controller: "UserCtrl"})
     // Pages
 
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
