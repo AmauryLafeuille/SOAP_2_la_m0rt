@@ -1,0 +1,52 @@
+
+
+<div class="myContent">
+
+    <div class="form-group">
+   			Show vehicle :
+
+		<table class="table table-striped">
+			<th>
+				Immatricul
+			</th>
+						<th>
+				Firstname
+			</th>
+					<th>
+				Lastname
+			</th>
+          <th>
+        Geolocalisation
+      </th>
+                <th>
+        Etat
+      </th>
+			<tr ng-repeat="v in vehicle ">
+   				<td>
+  					{{v.immatricul.immatricul}}
+  				</td>
+  				<td>
+  					{{v.usedBy.firstname}}
+  				</td>
+  				<td>
+  					{{v.usedBy.lastname}}
+  				</td>
+                    <td>
+            {{v.geolocalisation.latitude}} || {{v.geolocalisation.longitude}}
+          </td>
+
+          <td>
+          <div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div> 
+          </td>
+  		</tr>
+	
+		</table>
+    </div>
+
+
+
+</div>
+
+
+
+

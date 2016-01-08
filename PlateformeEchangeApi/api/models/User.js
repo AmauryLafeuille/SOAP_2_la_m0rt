@@ -36,6 +36,7 @@ module.exports = {
         skill: {
             model: 'Skill',
         },
+
   }
 };
 

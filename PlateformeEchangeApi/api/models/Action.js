@@ -11,9 +11,6 @@ module.exports = {
         vehicle: {
             model: 'Vehicle',
         },
-        driver: {
-            model: 'User',
-        },
         repairman: {
             model: 'User',
         },

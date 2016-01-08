@@ -16,7 +16,12 @@ module.exports = {
         },
         usedBy: {
             model :'User',
-        }
+        },
+        geolocalisation: {
+            model :'Geolocalisation',
+        },
+
+
   }
 };
 

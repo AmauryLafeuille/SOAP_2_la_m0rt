@@ -18,10 +18,6 @@ module.exports = {
             type: 'float',
             required: true
         },
-        immatricul: {
-            model: 'Immatricul',
-            required: true
-        }
     }
 };
 

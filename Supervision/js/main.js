@@ -7,7 +7,7 @@
  * Main AngularJS Web Application
  */
 var app = angular.module('tutorialWebApp', [
-  'ngRoute','UserCtrl'
+  'ngRoute','UserCtrl','VehicleCtrl'
 ]);
 
 /**
@@ -18,6 +18,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     // Index
     .when("/", {templateUrl: "partials/User/registration.html", controller: "UserCtrl"})
     .when("/user/", {templateUrl: "partials/User/isConnected.html", controller: "UserCtrl"})
+    .when("/vehicle/", {templateUrl: "partials/Vehicle/showVehicles.html", controller: "VehicleCtrl"})
     // Pages
 
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});

@@ -9,12 +9,15 @@ module.exports = {
 
   attributes: {
       stateVehicle: {
-            type: 'int',
+            type: 'varchar',
             required: true,
             unique:true,
         },
         levelBreakdown: {
-            model: 'levelBreakdown',
+            model: 'LevelBreakdown',
+        },
+        color: {
+            type: 'varchar',
         },
   }
 };

@@ -9,12 +9,9 @@ module.exports = {
 
   attributes: {
       stateAction: {
-            type: 'int',
+            type: 'varchar',
             required: true,
             unique:true,
-        },
-        action: {
-            model: 'Action',
         },
   }
 };
