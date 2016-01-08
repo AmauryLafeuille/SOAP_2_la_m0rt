@@ -18,10 +18,10 @@ module.exports = {
         password: {
             type: 'string',
             required: true
-        },
+        },  
         accountType: {
-            model:'AccountType',
-            //required: true,
+            collection:'accountType',
+            via: 'accountType',
         },
         lastname: {
             type: 'string',
@@ -36,6 +36,11 @@ module.exports = {
         skill: {
             model: 'Skill',
         },
+        accountType: {
+            model: 'AccountType',
+        },
+
+
 
   }
 };
