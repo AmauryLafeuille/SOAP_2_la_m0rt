@@ -1,0 +1,21 @@
+{
+  "name": "Supervision",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Angular application supervision",
+  "keywords": [],
+  "dependencies": {
+    "angular": "^1.4.8",
+    "angular-route": "^1.4.8",
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.1.4"
+  },
+  "scripts": {},
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anonymous node/sails user/Supervision.git"
+  },
+  "author": "Les fr�res",
+  "license": ""
+}

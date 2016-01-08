@@ -9,10 +9,9 @@
  * For more information on sockets configuration, including advanced config options, see:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.sockets.html
  */
+var context = require('rabbit.js').createContext();
 
 module.exports.sockets = {
-
-
   /***************************************************************************
   *                                                                          *
   * Node.js (and consequently Sails.js) apps scale horizontally. It's a      *
@@ -51,6 +50,27 @@ module.exports.sockets = {
   // pass: '<redis auth password>',
 
 
+  onConnect: function(session, socket) {
+    var pub = context.socket('PUB');
+    var sub = context.socket('SUB');
+
+    socket.on('disconnect', function() {
+      pub.close();
+      sub.close();
+    });
+
+    // NB we have to adapt between the APIs
+    sub.setEncoding('utf8');
+    socket.on('message', function(msg) {
+      pub.write(msg, 'utf8');
+    });
+    sub.on('data', function(msg) {
+      socket.send(msg);
+    });
+    sub.connect('chat');
+    pub.connect('chat');
+
+  }
 
  /***************************************************************************
   *                                                                          *
