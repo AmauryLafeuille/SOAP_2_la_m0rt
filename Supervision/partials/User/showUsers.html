@@ -1,0 +1,47 @@
+
+
+<div class="myContent">
+
+    <div class="form-group">
+   			Show User :
+
+		<table class="table table-striped">
+			<th>
+				Prenom
+			</th>
+						<th>
+				Nom
+			</th>
+					<th>
+				Skill
+			</th>
+      <th>
+        Account Type
+      </th>
+
+			<tr ng-repeat="u in users ">
+   				<td>
+  					{{u.firstname}}
+  				</td>
+  				<td>
+  					{{u.lastname}}
+  				</td>
+  				<td>
+  					{{u.skill.levelSkill}}
+  				</td>
+          <td>
+            {{u.accountType.accountType}}
+          </td>
+        
+  		</tr>
+	
+		</table>
+    </div>
+
+
+
+</div>
+
+
+
+

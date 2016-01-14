@@ -19,6 +19,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/", {templateUrl: "partials/User/registration.html", controller: "UserCtrl"})
     .when("/user/", {templateUrl: "partials/User/isConnected.html", controller: "UserCtrl"})
     .when("/vehicle/", {templateUrl: "partials/Vehicle/showVehicles.html", controller: "VehicleCtrl"})
+    .when("/showUsers/", {templateUrl: "partials/User/showUsers.html", controller: "UserCtrl"})
     // Pages
 
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});

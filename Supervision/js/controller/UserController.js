@@ -4,6 +4,12 @@
 angular.module('UserCtrl', [])
 
 .controller('UserCtrl', ['$scope','$http','$route','$window', function($scope,$http,$route,$window) {
+
+
+/// Scope Function
+
+
+
   	 $scope.connection = function(user) {
   	 		console.log("Connection");
   	 		var successCallback = function(user){
@@ -42,5 +48,36 @@ angular.module('UserCtrl', [])
         console.log("isConnected");
         $scope.user = sessionStorage.user;
       };
+
+
+      $scope.showUsers = function(){
+          var succesShowUsers = function(users){
+               $scope.users = users.data;
+            console.log($scope.users);
+          }
+          var errorShowUsers = function(users){
+
+            console.log("Erreur affichage des users.");
+          }
+        $http.get('http://localhost:1337/user')
+        .then(succesShowUsers, errorShowUsers);
+      };
+
+
+
+// au démarrage du controller
+
+
+
+$scope.showUsers();
+
+
+
+
+
+
+
+
+
 
 }]);
