@@ -43,28 +43,13 @@ module.exports.connections = {
 
   apiSocieteTransport: {
     adapter: 'sails-mysql',
-    host: 'http://myadmin.archloy.xyz/',
-    user: 'nico',
-    password: '404notFound',
-    database: 'nico'
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'apiSocieteTransport'
   },
 
-    rabbitCluster: {
-        adapter: 'sails-rabbitmq',
 
-        /**
-         * The url of your rabbitmq installation
-         */
-        url: 'amqp://localhost:5672',
-
-        /**
-         * Define how persistence is managed. 'true' will subscribe to all queues
-         * and persist models that are published as messages. 'false' will do
-         * nothing. This lets you turn off the persistence worker feature on the
-         * Sails.js web server, and enable it in separate worker processes.
-         */
-        persistence: true
-    },
     /***************************************************************************
      *                                                                          *
      * MongoDB is the leading NoSQL database.                                   *

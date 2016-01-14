@@ -15,6 +15,9 @@
 					<th>
 				Lastname
 			</th>
+      <th>
+        Account Type
+      </th>
           <th>
         Geolocalisation
       </th>
@@ -31,7 +34,10 @@
   				<td>
   					{{v.usedBy.lastname}}
   				</td>
-                    <td>
+          <td>
+            {{v.usedBy.accountType}}
+          </td>
+            <td>
             {{v.geolocalisation.latitude}} || {{v.geolocalisation.longitude}}
           </td>
 
