@@ -19,10 +19,6 @@ module.exports = {
             type: 'string',
             required: true
         },  
-        accountType: {
-            collection:'accountType',
-            via: 'accountType',
-        },
         lastname: {
             type: 'string',
             required: true,
