@@ -8,7 +8,6 @@ angular.module('VehicleCtrl', [])
 
         var successCallback = function(vehicle){
           $scope.vehicle = vehicle.data;
-          console.log(vehicle.data);
           angular.forEach($scope.vehicle, function(value, key) {
             $http.get('http://localhost:1337/accountType/'+value.usedBy.accountType)
             .then(function(at){

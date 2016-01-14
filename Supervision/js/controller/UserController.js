@@ -4,11 +4,11 @@
 angular.module('UserCtrl', [])
 
 .controller('UserCtrl', ['$scope','$http','$route','$window', function($scope,$http,$route,$window) {
-
+// Init var
+$scope.showForm = false;
+$scope.buttonShowHide = "Add User";
 
 /// Scope Function
-
-
 
   	 $scope.connection = function(user) {
   	 		console.log("Connection");
@@ -39,7 +39,6 @@ angular.module('UserCtrl', [])
       $scope.deconnection = function(){
       	console.log("Déconnection");
       	sessionStorage.clear();
-      	console.log(sessionStorage);
       	$route.reload();
       };
 
@@ -53,7 +52,6 @@ angular.module('UserCtrl', [])
       $scope.showUsers = function(){
           var succesShowUsers = function(users){
                $scope.users = users.data;
-            console.log($scope.users);
           }
           var errorShowUsers = function(users){
 
@@ -62,6 +60,30 @@ angular.module('UserCtrl', [])
         $http.get('http://localhost:1337/user')
         .then(succesShowUsers, errorShowUsers);
       };
+
+
+
+            $scope.addUser = function(){
+          var succesShowUsers = function(users){
+               $scope.users = users.data;
+          }
+          var errorShowUsers = function(users){
+
+            console.log("Erreur affichage des users.");
+          }
+        $http.get('http://localhost:1337/user')
+        .then(succesShowUsers, errorShowUsers);
+      };
+
+
+      $scope.showFormAddUser = function(){
+        $scope.showForm = !$scope.showForm;
+        if($scope.showForm){
+          $scope.buttonShowHide = "Hide form";
+        }else{
+          $scope.buttonShowHide = "Add User";
+        }
+      }
 
 
 
