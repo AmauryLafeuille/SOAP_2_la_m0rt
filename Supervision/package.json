@@ -7,8 +7,13 @@
   "dependencies": {
     "angular": "^1.4.8",
     "angular-route": "^1.4.8",
+    "body-parser": "^1.14.2",
     "bootstrap": "^3.3.6",
-    "jquery": "^2.1.4"
+    "cookie-parser": "^1.4.1",
+    "express": "^4.13.3",
+    "express-session": "^1.13.0",
+    "jquery": "^2.1.4",
+    "method-override": "^2.3.5"
   },
   "scripts": {},
   "main": "app.js",
