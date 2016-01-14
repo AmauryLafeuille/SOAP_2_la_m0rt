@@ -52,6 +52,7 @@ $scope.buttonShowHide = "Add User";
       $scope.showUsers = function(){
           var succesShowUsers = function(users){
                $scope.users = users.data;
+
           }
           var errorShowUsers = function(users){
 
@@ -86,13 +87,88 @@ $scope.buttonShowHide = "Add User";
       }
 
 
+      $scope.registerUser = function(user){
+
+
+        var succesRegisterUser = function(user){
+          $scope.users.push(user);
+          $scope.showUsers();
+          console.log("user correctement créé");
+        };
+
+        var errorRegisterUSer = function(){
+          console.log("Erreur création user");
+        };
+        console.log(user);
+        var req = {
+             method: 'POST',
+             url: 'http://localhost:1337/user',
+             headers: {
+               'Content-Type': undefined
+             },
+             data: { 
+
+                login: user.login,
+                password : user.password,
+                firstname : user.firstname,
+                lastname : user.lastname,
+                skill : user.skill,
+                accountType : user.accountType 
+            }
+          }
+        $http(req).then(succesRegisterUser,errorRegisterUSer);      
+      };
+
+      $scope.getAccountType = function(accountType){
+        var successGetAccount = function(accountType){
+          $scope.accountType = accountType.data;
+          console.log($scope.accountType);
+          return $scope.accountType;
+        }
+        var errorGetAccount = function(accountType){
+          console.log("Erreur get account type");
+        }
+
+        $http.get('http://localhost:1337/accountType').then(successGetAccount,errorGetAccount);
+
+      };
+
+
+      $scope.getSkill = function(skill){
+        var succesGetSkill = function(skill){
+          return $scope.skill = skill.data;
+        }      
+        var errorGetSkill = function(){
+          console.log("Erreur get skill");
+        }
+        $http.get('http://localhost:1337/skill').then(succesGetSkill,errorGetSkill);
+      };
+
+      $scope.deleteUser = function(userObject){
+        var successDeleteUSer = function(){
+          console.log("user "+ userObject.id +"supprimé");
+          angular.forEach($scope.user, function(value, key) {
+            $scope.user[key].splice($scope.user[key].indexOf('userObject.id'),1);  
+            //console.log($scope.user);
+          });
+          
+          //$scope.showUsers();
+        };
+        var errorDeleteUser = function(){
+          console.log("Erreur suppression user");
+        }
+        $http.delete('http://localhost:1337/user/'+userObject.id).then(successDeleteUSer,errorDeleteUser);
+      }
+
+
 
 // au démarrage du controller
 
 
 
 $scope.showUsers();
-
+$scope.accountType = $scope.getAccountType();
+$scope.skill = $scope.getSkill();
 
 
 
