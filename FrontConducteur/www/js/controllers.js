@@ -74,7 +74,20 @@ angular.module('starter.controllers', ['ngToast'])
 
 .controller('AccountCtrl', function ($scope,$window,$http,$rootScope) {
      $scope.user = $rootScope.userConnecte;
+     $scope.newLevelBreakdown = false;
+     $scope.$watch("newLevelBreakdown", function(data){
+        $scope.getVehicle()
+     }) 
 
+
+     $scope.getVehicle = function(){
+       $http.get('http://localhost:1337/vehicle?usedBy='+$scope.user.id)
+      .then(function(vehicle){
+        $scope.vehicle = vehicle.data[0];
+      },function(){
+        console.log("Erreur recupértion vehicle");
+      });
+     };
 
      $scope.getLevelBreakdown = function(){
       $http.get('http://localhost:1337/levelBreakdown').then(
@@ -84,15 +97,19 @@ angular.module('starter.controllers', ['ngToast'])
         function(){
         });
      }
-      $scope.getLevelBreakdown();
 
-     $http.get('http://localhost:1337/vehicle?usedBy='+$scope.user.id)
-      .then(function(vehicle){
-        $scope.vehicle = vehicle.data[0];
-        console.log($scope.vehicle);
-      },function(){
-        console.log("Erreur recupértion vehicle");
-      });
+     $scope.getStateVehicle = function(){
+    $http.get('http://localhost:1337/stateVehicle').then(
+        function(data){
+          $scope.getsv = data.data;
+        },
+        function(){
+        });
+     }
+      $scope.getLevelBreakdown();
+      $scope.getStateVehicle();
+
+      $scope.getVehicle();
 
 
       $scope.formAskHelp = function(fah){
@@ -100,7 +117,58 @@ angular.module('starter.controllers', ['ngToast'])
         var v = $scope.vehicle;
         var successRegisterLogVehicle = function(){
           console.log("Etat du vehicule courant mis en base pour historique");
+          $scope.jsonFah = JSON.parse(fah.levelBreakdown);
+          $scope.jsonSv = JSON.parse(fah.sv);
+
+
+
+
+
+
+        // modif vehicle with put
+            var reqPut = {
+             method: 'PUT',
+             url: 'http://localhost:1337/vehicle/'+v.id,
+             headers: {
+               'Content-Type': undefined
+             },
+             data: { 
+
+                levelBreakdown: $scope.jsonFah.id,
+                stateVehicle : $scope.jsonSv.id
+            }
+          };
+
+          $http(reqPut).then(function(){
+            console.log("Update ok ")
+            $scope.newLevelBreakdown = !$scope.newLevelBreakdown;
+        },
+        function(){console.log('Update ko')});  
+
+
+
+
+           var reqAddBreakHisto = {
+             method: 'POST',
+             url: 'http://localhost:1337/logVehicle',
+             headers: {
+               'Content-Type': undefined
+             },
+             data: { 
+                immatricul: v.immatricul.immatricul,
+                user : v.usedBy,
+                stateVehicle : $scope.jsonSv.stateVehicle,
+                levelBreakdown : $scope.jsonFah.levelBreakdown
+            }
+          }
+
+        $http(reqAddBreakHisto).then(function(){console.log('add histo break ok')},function(){console.log('add histo break ko')});  
+       
+
         }
+
+
+
         var errorRegistrerLogVehicle = function(){
           console.log("Erreur enregistrement etat en base historique");
         }
@@ -120,40 +188,7 @@ angular.module('starter.controllers', ['ngToast'])
             }
           }
         $http(req).then(successRegisterLogVehicle,errorRegistrerLogVehicle);  
-        // Fin post in historique
-
-
-        // modif vehicle with put
-            var reqPut = {
-             method: 'PUT',
-             url: 'http://localhost:1337/vehicle/'+v.id,
-             headers: {
-               'Content-Type': undefined
-             },
-             data: { 
-
-                levelBreakdown: fah.levelBreakdownId,
-                stateVehicle : 2
-            }
-          };
-
-          $http(reqPut).then(function(){console.log("Update ok ")},function(){console.log('Update ko')});  
-          // ajout historique du breakdown
-
-           var reqAddBreakHisto = {
-             method: 'POST',
-             url: 'http://localhost:1337/logVehicle',
-             headers: {
-               'Content-Type': undefined
-             },
-             data: { 
-                immatricul: v.immatricul.immatricul,
-                user : v.usedBy,
-                stateVehicle : "breakdown",
-                levelBreakdown : fah.levelBreakdownId,
-            }
-          }
-        $http(reqAddBreakHisto).then(function(){console.log('add histo break ok')},function(){console.log('add histo break ko')});  
+        
       }
 
 
