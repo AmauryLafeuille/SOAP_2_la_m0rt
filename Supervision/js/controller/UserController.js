@@ -25,11 +25,11 @@ $scope.buttonShowHide = "Add User";
           }else{
             console.log("User / password incorrect");
           }
-        }
+        };
 
   	 		var errorCallback = function(user){
   	 			console.log("Erreur");
-  	 		}
+  	 		};
 
   	 		$http.get('http://localhost:1337/user?login='+$scope.user.login)
   	 		.then(successCallback, errorCallback);
@@ -53,11 +53,11 @@ $scope.buttonShowHide = "Add User";
           var succesShowUsers = function(users){
                $scope.users = users.data;
 
-          }
+          };
           var errorShowUsers = function(users){
 
             console.log("Erreur affichage des users.");
-          }
+          };
         $http.get('http://localhost:1337/user')
         .then(succesShowUsers, errorShowUsers);
       };

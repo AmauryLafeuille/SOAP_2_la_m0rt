@@ -3,10 +3,16 @@
  */
 angular.module('VehicleCtrl', [])
 
-.controller('VehicleCtrl', ['$scope','$http','$route','$window', function($scope,$http,$route,$window) {
+.controller('VehicleCtrl', ['$scope','$http', 'socket', function($scope,$http, socket) {
 
         var map = L.map('map').setView([44.8584622, -0.5730805], 13);
 
+        socket.on('send:time', function (data) {
+            $scope.time = data.time;
+        });
+        socket.on('send:name', function (data) {
+            $scope.name = data.name;
+        });
 
         $scope.showForm = false;
         $scope.buttonShowHide = "Add Vehicle";

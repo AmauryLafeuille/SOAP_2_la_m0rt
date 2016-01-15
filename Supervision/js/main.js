@@ -6,9 +6,12 @@
 /**
  * Main AngularJS Web Application
  */
-var app = angular.module('tutorialWebApp', [
-  'ngRoute','UserCtrl','VehicleCtrl'
-]);
+var app = angular.module('supervision', [
+  'ngRoute','UserCtrl','VehicleCtrl','btford.socket-io'
+])
+    .factory('socket', function (socketFactory) {
+      return socketFactory();
+    });;
 
 /**
  * Configure the Routes
@@ -24,9 +27,6 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
 }]);
-
-
-
 
 /**
  * Controls all other Pages
