@@ -80,7 +80,7 @@
     <div class="form-group">
       <label for="inputFirstname" class="col-sm-2 control-label">Firstname</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="inputPassword3" placeholder="Firstname" ng-model="user.firstname">
+        <input type="text" class="form-control" id="inputFirstName" placeholder="Firstname" ng-model="user.firstname">
       </div>
     </div>
 
@@ -88,7 +88,7 @@
     <div class="form-group">
       <label for="inputLevelSkill" class="col-sm-2 control-label">Level Skill</label>
       <div class="col-sm-10">
-        <select ng-model="user.skill">
+        <select ng-model="user.skill" id="inputLevelSkill">
         <option ng-repeat="sk in skill"  value="{{sk.levelSkill}}">{{sk.levelSkill}}</option>
         </select>
         </div>
@@ -99,7 +99,7 @@
     <div class="form-group">
       <label for="inputAccountType" class="col-sm-2 control-label">Account Type</label>
       <div class="col-sm-10">
-        <select ng-model="user.accountType">
+        <select ng-model="user.accountType" id="inputAccountType">
           <option ng-repeat="ac in accountType"  value="{{ac.id}}">{{ac.accountType}}</option>
         </select>
       </div>

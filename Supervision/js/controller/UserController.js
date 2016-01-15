@@ -73,14 +73,14 @@ $scope.buttonShowHide = "Add User";
             console.log("Erreur affichage des users.");
           }
         $http.get('http://localhost:1337/user')
-        .then(succesShowUsers, errorShowUsers);
+        .then(succesShowUsers, errforShowUsers);
       };
 
 
       $scope.showFormAddUser = function(){
         $scope.showForm = !$scope.showForm;
         if($scope.showForm){
-          $scope.buttonShowHide = "Hide form";
+          $scope.buttonShowHidebuttonShowHide = "Hide form";
         }else{
           $scope.buttonShowHide = "Add User";
         }
