@@ -83,8 +83,31 @@ angular.module('starter.controllers', ['ngToast'])
       });
 
 
-      $scope.formAskHelp = function(formAskHelp){
-        
+      $scope.formAskHelp = function(data){
+        console.log($scope.vehicle);
+        var successRegisterLogVehicle = function(){
+          console.log("Etat du vehicule courant mis en base pour historique");
+        }
+        var errorRegistrerLogVehicle = function(){
+          console.log("Erreur enregistrement etat en base historique");
+        }
+
+
+            var req = {
+             method: 'POST',
+             url: 'http://localhost:1337/logvehicle',
+             headers: {
+               'Content-Type': undefined
+             },
+             data: { 
+
+                vehicle: $scope.vehicle.id,
+                user : $scope.vehicle.usedBy.login,
+                stateVehicle : $scope.vehicle.stateVehicle.stateVehicle,
+                levelBreakdown : $scope.vehicle.levelBreakdown,
+            }
+          }
+        $http(req).then(successRegisterLogVehicle,errorRegistrerLogVehicle);  
       }
 
 

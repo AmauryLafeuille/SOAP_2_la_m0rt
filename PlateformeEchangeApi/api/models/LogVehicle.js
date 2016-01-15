@@ -2,16 +2,16 @@ module.exports = {
 
   attributes: {
 		vehicle: {
-			model: 'Vehicle'
+			vehicle: 'Vehicle'
         },
         user : {
-        	model : 'User',
+        	type: 'varchar',
         },
         stateVehicle : {
-        	model : 'StateVehicle',
+        	type: 'varchar',
         },
-        levelBreakDown : {
-        	model : 'LevelBreakdown', 
+        levelBreakdown : {
+        	type : 'int', 
     	}
   }
 };

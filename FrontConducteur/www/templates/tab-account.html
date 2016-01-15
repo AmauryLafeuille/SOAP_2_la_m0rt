@@ -1,7 +1,7 @@
 <ion-view view-title="Need help" >
 
-  <ion-content>
-<div class="list" ng-controller="AccountCtrl">
+  <ion-content ng-controller="AccountCtrl">
+<div class="list">
 
 	Your informations:
 	<ul>
@@ -16,7 +16,7 @@
     <div class="input-label">
       Level breakdown
     </div>
-    <form id="formAskHelp">
+    <form id="formAskHelp" ng>
 	    <select>
 	      <option selected>1</option>
 	      <option >2</option>
@@ -29,7 +29,7 @@
 </div>
 
 
-<button class="button button-full button-calm">
+<button class="button button-full button-calm" type="submit" ng-click="formAskHelp()" >
   Ask help
 </button>
 
