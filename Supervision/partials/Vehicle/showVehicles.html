@@ -38,6 +38,9 @@
 		<h2>Vehicles <button type="button" class="btn btn-primary" ng-click="showFormAddVehicle()">Add</button></h2>
 		<table class="table table-striped">
 			<th>
+				Id Vehicle
+			</th>
+			<th>
 				Immatricul
 			</th>
 			<th>
@@ -49,19 +52,27 @@
 			<th>
 				Etat
 			</th>
+			<th>
+				Action
+			</th>
 			<tr ng-repeat="v in vehicle ">
+				<td>
+					{{v.id}}
+				</td>
 				<td>
 					{{v.immatricul.immatricul}}
 				</td>
-				<td>
+				<td >
 					{{v.usedBy.firstname}}
 				</td>
 				<td>
 					{{v.usedBy.lastname}}
 				</td>
-
 				<td>
 					<div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div>
+				</td>
+				<td>
+					 <span class="glyphicon glyphicon-trash" ng-click="deleteVehicle(v)"></span>
 				</td>
 			</tr>
 

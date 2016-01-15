@@ -20,7 +20,7 @@ angular.module('VehicleCtrl', [])
         $http.get('http://localhost:1337/user')
             .then(function(data){
                 $scope.user = data.data;
-            }, errorCallback);
+            }, function(){console.log("error get user")});
 
         L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -29,6 +29,9 @@ angular.module('VehicleCtrl', [])
             accessToken: 'pk.eyJ1IjoicGVkcm9jIiwiYSI6ImNpamZrMjczdzAwMGd2bGx4ZWJyYTh3NTIifQ.RJ8GQ1EoWKL_OPdVR-HQEA'
         }).addTo(map);
 
+
+
+        
 
 
         $scope.registerVehicle = function(vehicle){
@@ -78,7 +81,8 @@ angular.module('VehicleCtrl', [])
             }
         }
 
-        var successCallback = function(vehicle){
+        $scope.getVehicle = function(){
+            var successCallback = function(vehicle){
 
           $scope.vehicle = vehicle.data;
           angular.forEach($scope.vehicle, function(value, key) {
@@ -115,16 +119,22 @@ angular.module('VehicleCtrl', [])
             .then(successCallback, errorCallback);
 
 
+        }
+
+        $scope.getVehicle();
+
         $http.get('http://localhost:1337/user?accountType=2')
             .then(function(data){
                 $scope.techniciens = data.data;
 
-            }, errorCallback);
+            }, function(){console.log("error get techniciens")});
 
 
 
-
-
+            $scope.deleteVehicle = function(v){
+              $http.delete('http://localhost:1337/vehicle/'+v.id)
+              .then(function(){console.log("Delete vehicle ok")},function(){console.log("delete vehicle ko")});
+            }
 
 
 }]);
