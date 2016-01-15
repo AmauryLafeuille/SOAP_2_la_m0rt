@@ -1,6 +1,44 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ngToast'])
 
-.controller('DashCtrl', function($scope,$interval) {
+.controller('DashCtrl',['$scope','$interval','$http','ngToast','$window','$rootScope',
+ function($scope,$interval,$http,ngToast,$window,$rootScope) {
+  if(!$rootScope.userConnecte){
+    $window.location.href= '#/tab/dash';
+  }
+
+
+    $scope.connectionUser = function(user){
+        var successgetUser = function(userBdd){
+          if(userBdd.data.length > 0){   
+              if(userBdd.data[0].login == user.login && userBdd.data[0].password == user.password){
+              $rootScope.userConnecte = userBdd.data[0];
+              console.log("User connected");
+              $window.location.href = '#/tab/account';
+            }
+          }else{
+               console.log('Login or password incorrect');
+          }
+          
+
+        }
+        var errorGetUser = function(){
+          console.log("Erreur connexion user");
+        }
+
+        $http.get('http://localhost:1337/user?login='+user.login)
+        .then(successgetUser,errorGetUser);
+
+    }
+
+
+    $scope.deconnection = function(){
+      console.log("deconnection");
+      $rootScope.userConnecte=null;
+      $window.location.href='#/tab/dash';
+    }
+
+
+
 
     navigator.geolocation.getCurrentPosition(function (position) {
 
@@ -12,7 +50,7 @@ angular.module('starter.controllers', [])
 
 
     });
-  })
+  }])
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -34,13 +72,22 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function ($scope, $auth) {
+.controller('AccountCtrl', function ($scope,$window,$http,$rootScope) {
+     $scope.user = $rootScope.userConnecte;
+     $http.get('http://localhost:1337/vehicle?usedBy='+$scope.user.id)
+      .then(function(vehicle){
+        $scope.vehicle = vehicle.data[0];
+        console.log($scope.vehicle);
+      },function(){
+        console.log("Erreur recupértion vehicle");
+      });
 
 
+      $scope.formAskHelp = function(formAskHelp){
+        
+      }
 
-  $scope.authenticate = function(provider) {
-    $auth.authenticate(provider);
-  };
+
 
 })
 

@@ -1,5 +1,41 @@
-<ion-view view-title="Need help">
+<ion-view view-title="Need help" >
+
   <ion-content>
-  	
+<div class="list" ng-controller="AccountCtrl">
+
+	Your informations:
+	<ul>
+		<li>{{user.firstname}} {{user.lastname}}
+		</li>
+		<li>{{vehicle.immatricul.immatricul}}
+		</li>
+		<li>{{vehicle.geolocalisation.latitude}} || {{vehicle.geolocalisation.longitude}}
+		</li>
+	</ul>
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Level breakdown
+    </div>
+    <form id="formAskHelp">
+	    <select>
+	      <option selected>1</option>
+	      <option >2</option>
+	      <option>3</option>
+	      <option>4</option>
+	    </select>
+		</form>
+  </label>
+
+</div>
+
+
+<button class="button button-full button-calm">
+  Ask help
+</button>
+
+
+<button class="button button-full button-assertive" ng-controller="DashCtrl" ng-click="deconnection()">
+  Disconnect
+</button>
   </ion-content>
 </ion-view>

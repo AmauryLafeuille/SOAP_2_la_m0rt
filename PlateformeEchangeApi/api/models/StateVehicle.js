@@ -13,9 +13,9 @@ module.exports = {
             required: true,
             unique:true,
         },
-        levelBreakdown: {
-            model: 'LevelBreakdown',
-        },
+        // levelBreakdown: {
+        //     model: 'LevelBreakdown',
+        // },
         color: {
             type: 'varchar',
         },

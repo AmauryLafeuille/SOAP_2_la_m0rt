@@ -14,6 +14,9 @@ module.exports = {
         stateVehicle: {
             model: 'StateVehicle',
         },
+        levelBreakdown:{
+            model : 'LevelBreakdown',
+        },
         usedBy: {
             model :'User',
         },
