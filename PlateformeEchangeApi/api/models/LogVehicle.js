@@ -1,8 +1,8 @@
 module.exports = {
 
   attributes: {
-		vehicle: {
-			vehicle: 'Vehicle'
+		immatricul: {
+			type: 'varchar'
         },
         user : {
         	type: 'varchar',
@@ -12,7 +12,7 @@ module.exports = {
         },
         levelBreakdown : {
         	type : 'int', 
-    	}
+    	},
   }
 };
 

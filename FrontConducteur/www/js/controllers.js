@@ -101,10 +101,10 @@ angular.module('starter.controllers', ['ngToast'])
              },
              data: { 
 
-                vehicle: $scope.vehicle.id,
-                user : $scope.vehicle.usedBy.login,
-                stateVehicle : $scope.vehicle.stateVehicle.stateVehicle,
-                levelBreakdown : $scope.vehicle.levelBreakdown,
+                immatricul: 'aaaaaaaa',
+                user : 'nruiz',
+                stateVehicle : 'working',
+                levelBreakdown : '4',
             }
           }
         $http(req).then(successRegisterLogVehicle,errorRegistrerLogVehicle);  
