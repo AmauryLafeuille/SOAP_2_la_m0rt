@@ -91,7 +91,6 @@ $scope.buttonShowHide = "Add User";
 
 
         var succesRegisterUser = function(user){
-          $scope.users.push(user);
           $scope.showUsers();
           console.log("user correctement créé");
         };
@@ -147,12 +146,12 @@ $scope.buttonShowHide = "Add User";
       $scope.deleteUser = function(userObject){
         var successDeleteUSer = function(){
           console.log("user "+ userObject.id +"supprimé");
-          angular.forEach($scope.user, function(value, key) {
-            $scope.user[key].splice($scope.user[key].indexOf('userObject.id'),1);  
-            //console.log($scope.user);
-          });
+          // angular.forEach($scope.user, function(value, key) {
+          //   $scope.user[key].splice($scope.user[key].indexOf('userObject.id'),1);  
+          //   //console.log($scope.user);
+          // });
           
-          //$scope.showUsers();
+          $scope.showUsers();
         };
         var errorDeleteUser = function(){
           console.log("Erreur suppression user");
