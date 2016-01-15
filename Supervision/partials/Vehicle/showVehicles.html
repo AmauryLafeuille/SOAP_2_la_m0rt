@@ -3,53 +3,12 @@
 <div class="myContent">
 
     <div class="form-group">
-   			Show vehicle :
+		<h1></h1>
 
-		<table class="table table-striped">
-			<th>
-				Immatricul
-			</th>
-						<th>
-				Firstname
-			</th>
-					<th>
-				Lastname
-			</th>
-      <th>
-        Account Type
-      </th>
-          <th>
-        Geolocalisation
-      </th>
-                <th>
-        Etat
-      </th>
-			<tr ng-repeat="v in vehicle ">
-   				<td>
-  					{{v.immatricul.immatricul}}
-  				</td>
-  				<td>
-  					{{v.usedBy.firstname}}
-  				</td>
-  				<td>
-  					{{v.usedBy.lastname}}
-  				</td>
-          <td>
-            {{v.usedBy.accountType}}
-          </td>
-            <td>
-            {{v.geolocalisation.latitude}} || {{v.geolocalisation.longitude}}
-          </td>
 
-          <td>
-          <div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div> 
-          </td>
-  		</tr>
-	
-		</table>
     </div>
 
-	<button type="button" class="btn btn-primary" ng-click="showFormAddVehicle()">{{buttonShowHide}}</button>
+
 
 	<div id="formVehicle" ng-show="showForm">
 		<form class="form-horizontal">
@@ -68,7 +27,62 @@
 		</form>
 	</div>
 
-	<div id="map" style="margin-left:auto;margin-right:auto;height:600px;width:800px"></div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h2>Vehicles <button type="button" class="btn btn-primary" ng-click="showFormAddVehicle()">Add</button></h2>
+		<table class="table table-striped">
+			<th>
+				Immatricul
+			</th>
+			<th>
+				Firstname
+			</th>
+			<th>
+				Lastname
+			</th>
+			<th>
+				Etat
+			</th>
+			<tr ng-repeat="v in vehicle ">
+				<td>
+					{{v.immatricul.immatricul}}
+				</td>
+				<td>
+					{{v.usedBy.firstname}}
+				</td>
+				<td>
+					{{v.usedBy.lastname}}
+				</td>
+
+				<td>
+					<div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div>
+				</td>
+			</tr>
+
+		</table>
+	<hr>
+		<h2>Technicians  <a href="http://localhost:5000/#/showUsers/" class="btn btn-primary">Add</a></h2>
+		<table class="table table-striped">
+			<th>
+				Firstname
+			</th>
+			<th>
+				Lastname
+			</th>
+			<tr ng-repeat="u in techniciens ">
+				<td>
+					{{u.firstname}}
+				</td>
+				<td>
+					{{u.lastname}}
+				</td>
+			</tr>
+
+		</table>
+
+	</div>
+	<div class="col-md-7" id="map" style="height:600px"></div>
+
 
 
 </div>

@@ -96,6 +96,8 @@ angular.module('VehicleCtrl', [])
           });
 
 
+
+
         //  console.log(vehicle.data);
         }
 
@@ -104,7 +106,14 @@ angular.module('VehicleCtrl', [])
         }
 
         $http.get('http://localhost:1337/vehicle')
-        .then(successCallback, errorCallback);
+            .then(successCallback, errorCallback);
+
+
+        $http.get('http://localhost:1337/user?accountType=2')
+            .then(function(data){
+                $scope.techniciens = data.data;
+
+            }, errorCallback);
 
 
 
