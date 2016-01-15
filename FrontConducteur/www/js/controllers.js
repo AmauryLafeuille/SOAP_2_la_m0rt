@@ -1,8 +1,8 @@
 angular.module('starter.controllers', ['ngToast'])
 
-.controller('DashCtrl',['$scope','$interval','$http','ngToast','$window','$rootScope',
- function($scope,$interval,$http,ngToast,$window,$rootScope) {
-  if(!$rootScope.userConnecte){
+.controller('DashCtrl',['$scope','$interval','$http','ngToast','$window',
+ function($scope,$interval,$http,ngToast,$window) {
+  if(!sessionStorage.userId){
     $window.location.href= '#/tab/dash';
   }
 
@@ -10,8 +10,11 @@ angular.module('starter.controllers', ['ngToast'])
     $scope.connectionUser = function(user){
         var successgetUser = function(userBdd){
           if(userBdd.data.length > 0){   
-              if(userBdd.data[0].login == user.login && userBdd.data[0].password == user.password){
-              $rootScope.userConnecte = userBdd.data[0];
+              if(userBdd.data[0].login == user.login && userBdd.data[0].password == user.password){;
+             sessionStorage.userId = userBdd.data[0].id;
+             sessionStorage.userLogin = userBdd.data[0].login;
+             sessionStorage.userFirstname = userBdd.data[0].firstname;
+             sessionStorage.userLastname = userBdd.data[0].lastname; 
               console.log("User connected");
               $window.location.href = '#/tab/account';
             }
@@ -33,7 +36,7 @@ angular.module('starter.controllers', ['ngToast'])
 
     $scope.deconnection = function(){
       console.log("deconnection");
-      $rootScope.userConnecte=null;
+      sessionStorage.clear();
       $window.location.href='#/tab/dash';
     }
 
@@ -72,16 +75,15 @@ angular.module('starter.controllers', ['ngToast'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function ($scope,$window,$http,$rootScope) {
-     $scope.user = $rootScope.userConnecte;
+.controller('AccountCtrl', function ($scope,$window,$http) {
      $scope.newLevelBreakdown = false;
      $scope.$watch("newLevelBreakdown", function(data){
-        $scope.getVehicle()
+        $scope.getVehicle();
      }) 
 
 
      $scope.getVehicle = function(){
-       $http.get('http://localhost:1337/vehicle?usedBy='+$scope.user.id)
+       $http.get('http://localhost:1337/vehicle?usedBy='+sessionStorage.userId)
       .then(function(vehicle){
         $scope.vehicle = vehicle.data[0];
       },function(){
