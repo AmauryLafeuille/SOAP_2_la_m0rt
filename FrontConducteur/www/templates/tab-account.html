@@ -1,7 +1,7 @@
 <ion-view view-title="Need help" >
 
-  <ion-content>
-<div class="list" ng-controller="AccountCtrl">
+  <ion-content ng-controller="AccountCtrl">
+<div class="list">
 
 	Your informations:
 	<ul>
@@ -17,11 +17,8 @@
       Level breakdown
     </div>
     <form id="formAskHelp">
-	    <select>
-	      <option selected>1</option>
-	      <option >2</option>
-	      <option>3</option>
-	      <option>4</option>
+	    <select ng-model="fah.levelBreakdownId "  >
+	      <option ng-repeat="l in getlvlBreakdown" value="{{l.id}}">{{l.levelBreakdown}}</option>
 	    </select>
 		</form>
   </label>
@@ -29,7 +26,7 @@
 </div>
 
 
-<button class="button button-full button-calm">
+<button class="button button-full button-calm" type="submit" ng-click="formAskHelp(fah)" >
   Ask help
 </button>
 
