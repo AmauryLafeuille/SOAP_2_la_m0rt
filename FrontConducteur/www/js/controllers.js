@@ -55,19 +55,10 @@ angular.module('starter.controllers', ['ngToast'])
     });
   }])
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+.controller('TruckCtrl', function($scope) {
+    $scope.getDisponibilityTruck = function(){
+      $http.get('http://localhost:1337/vehicle?usedBy=0')
+    }
 
 })
 
@@ -76,6 +67,7 @@ angular.module('starter.controllers', ['ngToast'])
 })
 
 .controller('AccountCtrl', function ($scope,$window,$http) {
+
      $scope.newLevelBreakdown = false;
      $scope.$watch("newLevelBreakdown", function(data){
         $scope.getVehicle();

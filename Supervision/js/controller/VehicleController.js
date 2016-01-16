@@ -46,6 +46,9 @@ angular.module('VehicleCtrl', [])
                     },
                     data: {
                         immatricul: immatricul.data.id,
+                        stateVehicle : 4,
+                        levelBreakdown : 5,
+                        usedBy : 0,
                     },
                 }
                $http(reqV).then(function(){},function(){});
