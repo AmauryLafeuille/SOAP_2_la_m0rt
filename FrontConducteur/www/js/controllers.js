@@ -1,9 +1,10 @@
-angular.module('starter.controllers', ['ngToast'])
+angular.module('starter.controllers', ['ngToast','ngRoute'])
 
-.controller('DashCtrl',['$scope','$interval','$http','ngToast','$window',
- function($scope,$interval,$http,ngToast,$window) {
+.controller('DashCtrl',['$scope','$interval','$http','ngToast','$window','$route',
+ function($scope,$interval,$http,ngToast,$window,$route) {
   if(!sessionStorage.userId){
     $window.location.href= '#/tab/dash';
+    $route.reload();
   }
 
 
@@ -17,6 +18,7 @@ angular.module('starter.controllers', ['ngToast'])
              sessionStorage.userLastname = userBdd.data[0].lastname; 
               console.log("User connected");
               $window.location.href = '#/tab/account';
+              $route.reload();
             }
           }else{
                console.log('Login or password incorrect');
@@ -38,6 +40,7 @@ angular.module('starter.controllers', ['ngToast'])
       console.log("deconnection");
       sessionStorage.clear();
       $window.location.href='#/tab/dash';
+      $route.reload();
     }
 
 
@@ -55,18 +58,56 @@ angular.module('starter.controllers', ['ngToast'])
     });
   }])
 
-.controller('TruckCtrl', function($scope) {
+.controller('TruckCtrl', function($scope,$http,$route,$window) {
     $scope.getDisponibilityTruck = function(){
-      $http.get('http://localhost:1337/vehicle?usedBy=0')
-    }
+      //stateVehicle 4 = stop.
+      $http.get('http://localhost:1337/vehicle?usedBy=0&stateVehicle=4')
+      .then(
+        function(data){$scope.getDispoTruck = data.data},
+        function(){console.log("recup vehicle ko")});
+    };
+
+    $scope.getTruckFromUserSession = function(){
+      $http.get('http://localhost:1337/vehicle?usedBy='+sessionStorage.userId)
+      .then
+      (function(data){
+          $scope.getTfromU = data.data[0];  
+
+      },
+      function(){console.log("Erreur recuperation truck du driver")}
+      );
+    };
+
+    $scope.chooseTruck = function(truckChoose){
+      var tc = truckChoose;
+      console.log(tc);
+      var reqPut = {
+         method: 'PUT',
+         url: 'http://localhost:1337/vehicle/'+tc.id,
+         headers: {
+           'Content-Type': undefined
+         },
+         data: { 
+            usedBy: sessionStorage.userId,
+        }
+      };
+       $http(reqPut).then(function(){console.log("choose truck ok")},function(){console.log("choose truck ko")}); 
+      $window.location.reload();
+    };
+
+
+
+
+     $scope.getDisponibilityTruck();
+     $scope.getTruckFromUserSession();
+
+
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
 
-.controller('AccountCtrl', function ($scope,$window,$http) {
+
+.controller('AccountCtrl', function ($scope,$window,$http,$route) {
 
      $scope.newLevelBreakdown = false;
      $scope.$watch("newLevelBreakdown", function(data){
@@ -167,7 +208,6 @@ angular.module('starter.controllers', ['ngToast'])
           console.log("Erreur enregistrement etat en base historique");
         }
 
-
             var req = {
              method: 'POST',
              url: 'http://localhost:1337/logVehicle',
@@ -183,7 +223,26 @@ angular.module('starter.controllers', ['ngToast'])
           }
         $http(req).then(successRegisterLogVehicle,errorRegistrerLogVehicle);  
         
-      }
+      };
+
+
+      $scope.goOut = function(){
+        var reqPut = {
+           method: 'PUT',
+           url: 'http://localhost:1337/vehicle/'+$scope.vehicle.id,
+           headers: {
+             'Content-Type': undefined
+           },
+           data: { 
+              usedBy: 0,
+          }
+        };
+        $http(reqPut).then(function(){console.log("go out ok")},function(){console.log("go out ko")}); 
+        $scope.getTfromU=null;
+        $window.location.href= '#/tab/truck';
+        $window.location.reload();
+        
+    }
 
 
 
