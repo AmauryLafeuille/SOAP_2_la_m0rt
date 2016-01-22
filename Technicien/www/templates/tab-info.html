@@ -1,0 +1,11 @@
+<ion-view view-title="Info - Choose a truck to repair">
+<ion-content>
+
+<ul class="list">
+	<li class="item" ng-repeat="ac in actionGet" ng-click="showVehicleOnMap(ac.vehicle)">
+		{{ac.vehicle.stringimmatricul}}
+	</li>
+</ul>
+
+</ion-content>
+</ion-view>
