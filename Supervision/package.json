@@ -17,9 +17,7 @@
     "jquery": "^2.1.4",
     "leaflet": "^0.7.7",
     "method-override": "^2.3.5",
-    "sails.io.js": "^0.12.2",
-    "socket.io": "^1.4.4",
-    "socket.io-client": "^1.4.4"
+    "socket.io": "^1.4.4"
   },
   "scripts": {},
   "main": "app.js",

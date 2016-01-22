@@ -10,17 +10,15 @@ angular.module('VehicleCtrl', [])
         var truckGreenIcon = L.icon({
             iconUrl: '/img/marker-repairman.png',
 
-            iconSize:     [125, 125], // size of the icon
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+            iconSize: [125, 125], // size of the icon
+            popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
 
+        socket.on('send:vehicle', function () {
+            console.log('socket');
+            $scope.getVehicle();
+        });
 
-        socket.on('send:time', function (data) {
-            $scope.time = data.time;
-        });
-        socket.on('send:name', function (data) {
-            $scope.name = data.name;
-        });
 
         $scope.showForm = false;
         $scope.buttonShowHide = "Add Vehicle";
@@ -84,7 +82,7 @@ angular.module('VehicleCtrl', [])
 
 
         $scope.gotoMap = function (latitude, longitude) {
-            if(latitude !== undefined && longitude !== undefined)
+            if (latitude !== undefined && longitude !== undefined)
                 map.setView([latitude, longitude], 13);
         };
 
@@ -100,11 +98,8 @@ angular.module('VehicleCtrl', [])
         $scope.getVehicle = function () {
             var successCallback = function (vehicle) {
 
-
                 $scope.vehicle = vehicle.data;
                 angular.forEach($scope.vehicle, function (value, key) {
-
-
 
                     if (value.usedBy !== undefined && value.usedBy != null) {
 
@@ -124,20 +119,14 @@ angular.module('VehicleCtrl', [])
                         );
                     }
                 });
-
-
-                //  console.log(vehicle.data);
-            }
+            };
 
             var errorCallback = function (vehicle) {
                 console.log("Erreur");
-            }
-
+            };
             $http.get('http://localhost:1337/vehicle')
                 .then(successCallback, errorCallback);
-
-
-        }
+        };
 
         $scope.getVehicle();
 
@@ -151,7 +140,7 @@ angular.module('VehicleCtrl', [])
             });
 
 
-        $scope.$watch("refreshVehicle",function(){
+        $scope.$watch("refreshVehicle", function () {
             $scope.getVehicle();
         })
 
@@ -166,12 +155,11 @@ angular.module('VehicleCtrl', [])
         }
 
         $http.get('http://localhost:1337/action?repairman=' + 3 + '&stateAction=2')
-                .then(function (data) {
-                    console.log("OK");
-                }, function () {
-                    console.log("Erreur lors de l'appel de l'api")
-                });
-
+            .then(function (data) {
+                console.log("OK");
+            }, function () {
+                console.log("Erreur lors de l'appel de l'api")
+            });
 
 
     }]);
