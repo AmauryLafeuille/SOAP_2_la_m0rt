@@ -6,6 +6,7 @@ angular.module('VehicleCtrl', [])
     .controller('VehicleCtrl', ['$scope', '$http', 'socket', function ($scope, $http, socket) {
 
         var map = L.map('map').setView([44.8584622, -0.5730805], 13);
+        var markers = [];
 
         var truckGreenIcon = L.icon({
             iconUrl: '/img/marker-repairman.png',
@@ -39,8 +40,6 @@ angular.module('VehicleCtrl', [])
 
 
         $scope.registerVehicle = function (vehicle) {
-
-
             var succesCreateVehicle = function (immatricul) {
                 var reqV = {
                     method: 'POST',
@@ -52,9 +51,9 @@ angular.module('VehicleCtrl', [])
                         immatricul: immatricul.data.id,
                         stateVehicle: 4,
                         levelBreakdown: 5,
-                        usedBy: 0,
-                    },
-                }
+                        usedBy: 0
+                    }
+                };
                 $http(reqV).then(function () {
                     $scope.refreshVehicle = !$scope.refreshVehicle;
                 }, function () {
@@ -74,9 +73,9 @@ angular.module('VehicleCtrl', [])
                     'Content-Type': undefined
                 },
                 data: {
-                    immatricul: vehicle.immatricul.immatricul,
+                    immatricul: vehicle.immatricul.immatricul
                 }
-            }
+            };
             $http(req).then(succesCreateVehicle, errorCreateVehicle);
         };
 
@@ -93,28 +92,34 @@ angular.module('VehicleCtrl', [])
             } else {
                 $scope.buttonShowHide = "Add Vehicle";
             }
-        }
+        };
 
         $scope.getVehicle = function () {
             var successCallback = function (vehicle) {
 
                 $scope.vehicle = vehicle.data;
+
+                //Delete markers to reconstruct them
+                if (markers.length > 0) {
+                    for (var i = 0; i < markers.length; i++) {
+                        map.removeLayer(markers[i]);
+                    }
+                    markers = [];
+                }
+
                 angular.forEach($scope.vehicle, function (value, key) {
-
                     if (value.usedBy !== undefined && value.usedBy != null) {
-
                         if (value.geolocalisation !== undefined && value.geolocalisation != null) {
-                            var marker = L.marker([value.geolocalisation.latitude, value.geolocalisation.longitude]/*,{icon: truckGreenIcon}*/).addTo(map);
+                            markers.push([value.geolocalisation.latitude, value.geolocalisation.longitude]);
+                            marker = L.marker([value.geolocalisation.latitude, value.geolocalisation.longitude]).addTo(map);
                             marker.bindPopup("<b>Immatriculation : " + value.immatricul.immatricul + "</b><br>Conduit par " + value.usedBy.firstname + " " + value.usedBy.lastname + "<br />Etat : " + value.stateVehicle.stateVehicle).openPopup();
-
                         }
+
                         $http.get('http://localhost:1337/accountType/' + value.usedBy.accountType)
                             .then(function (at) {
-
-
                                 $scope.vehicle[key].usedBy.accountType = at.data.accountType;
                             }, function () {
-                                console.log("Impossible de recuprer le type de compte");
+                                console.log("Impossible de recupérer le type de compte");
                             }
                         );
                     }

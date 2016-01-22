@@ -126,7 +126,7 @@ angular.module('starter.controllers', ['ngToast', 'ngRoute'])
               console.log("Erreur recupértion vehicle");
             });
         });
-      }, 10000);
+      }, 5000);
     });
 
 
