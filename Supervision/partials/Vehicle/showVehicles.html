@@ -33,8 +33,7 @@
 		</form>
 	</div>
 
-	<div class="col-md-1"></div>
-	<div class="col-md-3">
+	<div class="col-md-5">
 		<h2>Vehicles <button type="button" class="btn btn-primary" ng-click="showFormAddVehicle()">Add</button></h2>
 		<table class="table table-striped">
 			<th>
@@ -55,7 +54,7 @@
 			<th>
 				Action
 			</th>
-			<tr ng-repeat="v in vehicle ">
+			<tr ng-repeat="v in vehicle " ng-click="gotoMap(v.geolocalisation.latitude,v.geolocalisation.longitude)" ng-show="v.usedBy.accountType=='driver'">
 				<td>
 					{{v.id}}
 				</td>
@@ -69,10 +68,10 @@
 					{{v.usedBy.lastname}}
 				</td>
 				<td>
-					<div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div>
+					<div title={{v.stateVehicle.stateVehicle}} style="height:25px;width:25px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div>
 				</td>
 				<td>
-					 <span class="glyphicon glyphicon-trash" ng-click="deleteVehicle(v)"></span>
+					 <span class="glyphicon glyphicon-trash" ng-click="deleteVehicle(v)" style="cursor:pointer"></span>
 				</td>
 			</tr>
 
@@ -86,6 +85,12 @@
 			<th>
 				Lastname
 			</th>
+			<th>
+				Skill level
+			</th>
+			<th>
+				Statut
+			</th>
 			<tr ng-repeat="u in techniciens ">
 				<td>
 					{{u.firstname}}
@@ -93,12 +98,18 @@
 				<td>
 					{{u.lastname}}
 				</td>
+				<td>
+					{{u.skill.levelSkill}}
+				</td>
+				<td>
+					<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" ng-attr-title="">{{actionName(3)}}</button>
+				</td>
 			</tr>
 
 		</table>
 
 	</div>
-	<div class="col-md-7" id="map" style="height:600px"></div>
+	<div class="col-md-7"><div id="map" style="height:600px;width:100%"></div></div>
 
 
 
