@@ -7,6 +7,7 @@ angular.module('VehicleCtrl', [])
 
         var map = L.map('map').setView([44.8584622, -0.5730805], 13);
 
+
         var truckGreenIcon = L.icon({
             iconUrl: '/img/marker-repairman.png',
 
@@ -97,6 +98,35 @@ angular.module('VehicleCtrl', [])
             }
         }
 
+
+        $scope.assigner = function(action, user, stateAction){
+
+            var successCallback = function(user){
+                console.log("Success");
+
+            };
+
+            var errorCallback = function(user){
+                console.log("Erreur");
+            };
+
+            var req = {
+                method: 'POST',
+                url: 'http://localhost:1337/action',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    vehicle: action,
+                    repairman : user,
+                    stateAction : stateAction
+                }
+            }
+            $http(req).then(successCallback,errorCallback);
+        };
+
+
+
         $scope.getVehicle = function () {
             var successCallback = function (vehicle) {
 
@@ -108,7 +138,7 @@ angular.module('VehicleCtrl', [])
 
                     if (value.usedBy !== undefined && value.usedBy != null) {
 
-                        if (value.geolocalisation !== undefined && value.geolocalisation != null) {
+                        if (value.geolocalisation !== undefined && value.geolocalisation != null && value.usedBy.accountType == 2) {
                             var marker = L.marker([value.geolocalisation.latitude, value.geolocalisation.longitude]/*,{icon: truckGreenIcon}*/).addTo(map);
                             marker.bindPopup("<b>Immatriculation : " + value.immatricul.immatricul + "</b><br>Conduit par " + value.usedBy.firstname + " " + value.usedBy.lastname + "<br />Etat : " + value.stateVehicle.stateVehicle).openPopup();
 
@@ -146,6 +176,29 @@ angular.module('VehicleCtrl', [])
             .then(function (data) {
                 $scope.techniciens = data.data;
 
+                angular.forEach($scope.techniciens, function (value, key) {
+
+
+                    $http.get('http://localhost:1337/action?repairman=' + value.id + '&stateAction=2')
+                        .then(function (data) {
+                            if (data.data[0] !== undefined) {
+
+                               // console.log(data.data[0].stateAction.stateAction);
+                                $scope.techniciens[key].text = data.data[0].stateAction.stateAction;
+                            }
+                            else
+                                $scope.techniciens[key].text = "Disponible";
+
+
+                        }, function () {
+                            console.log("Erreur lors de l'appel de l'api")
+                        });
+
+                });
+
+
+
+
             }, function () {
                 console.log("error get techniciens")
             });
@@ -165,12 +218,12 @@ angular.module('VehicleCtrl', [])
                 });
         }
 
-        $http.get('http://localhost:1337/action?repairman=' + 3 + '&stateAction=2')
-                .then(function (data) {
-                    console.log("OK");
-                }, function () {
-                    console.log("Erreur lors de l'appel de l'api")
-                });
+
+        $scope.trouver = function(){
+            alert("hello its me");
+        }
+
+
 
 
 

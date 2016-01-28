@@ -7,7 +7,7 @@
 
 
           <td>
-          <div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div> 
+          <div style="height:35px;width:35px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div>
           </td>
   		</tr>
 		</table>
@@ -70,8 +70,11 @@
 				<td>
 					<div title={{v.stateVehicle.stateVehicle}} style="height:25px;width:25px ;border-radius:50%; background-color:{{v.stateVehicle.color}};"></div>
 				</td>
+
 				<td>
-					 <span class="glyphicon glyphicon-trash" ng-click="deleteVehicle(v)" style="cursor:pointer"></span>
+					<span class="glyphicon glyphicon-trash" ng-click="deleteVehicle(v)" style="cursor:pointer"></span>
+
+
 				</td>
 			</tr>
 
@@ -89,8 +92,10 @@
 				Skill level
 			</th>
 			<th>
-				Statut
+				Assigner
 			</th>
+			<th>Action</th>
+
 			<tr ng-repeat="u in techniciens ">
 				<td>
 					{{u.firstname}}
@@ -102,9 +107,23 @@
 					{{u.skill.levelSkill}}
 				</td>
 				<td>
-					<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" ng-attr-title="">{{actionName(3)}}</button>
+					<span ng-if="u.text != 'Disponible'">
+					{{u.text}}
+					</span>
+					<span ng-if="u.text == 'Disponible'">
+						<form>
+							<select ng-model="action.vehicle" id="vehicleAssigne" name="vehicleAssigne">
+								<option ng-repeat="v in vehicle"  value="{{v.id}}" >{{v.immatricul.immatricul}}</option>
+							</select>
+
+							<input type="submit" ng-click="assigner(action, u.id, 2)" value="OK" />
+						</form>
+					</span>
+		</td>
+				<td>
+					<button class="btn btn-default" ng-click="trouver()">Trouver</button>
 				</td>
-			</tr>
+		</tr>
 
 		</table>
 
@@ -114,7 +133,4 @@
 
 
 </div>
-
-
-
 
