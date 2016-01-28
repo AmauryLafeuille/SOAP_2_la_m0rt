@@ -21,6 +21,7 @@ angular.module('VehicleCtrl', [])
 
 
         $scope.showForm = false;
+        $scope.refreshTechnicians = false;
         $scope.buttonShowHide = "Add Vehicle";
         $scope.vehicle =
             $http.get('http://localhost:1337/user')
@@ -95,28 +96,26 @@ angular.module('VehicleCtrl', [])
 
 
         $scope.assigner = function(action, user, stateAction){
+            var actionData = JSON.parse(action.vehicle);
 
-            var successCallback = function(user){
+            var successCallback = function(){
                 console.log("Success");
-
+                $scope.refreshTechnicians = !$scope.refreshTechnicians;
             };
 
-            var errorCallback = function(user){
+            var errorCallback = function(){
                 console.log("Erreur");
             };
 
             var req = {
                 method: 'POST',
                 url: 'http://localhost:1337/action',
-                headers: {
-                    'Content-Type': undefined
-                },
                 data: {
-                    vehicle: action,
+                    vehicle: actionData.id,
                     repairman : user,
                     stateAction : stateAction
                 }
-            }
+            };
             $http(req).then(successCallback,errorCallback);
         };
 
@@ -164,40 +163,41 @@ angular.module('VehicleCtrl', [])
         $scope.getVehicle();
 
 
-        $http.get('http://localhost:1337/user?accountType=1')
-            .then(function (data) {
-                $scope.techniciens = data.data;
+        $scope.refreshTechniciens = function(){
+            $http.get('http://localhost:1337/user?accountType=1')
+                .then(function (data) {
+                    $scope.techniciens = data.data;
 
-                angular.forEach($scope.techniciens, function (value, key) {
+                    angular.forEach($scope.techniciens, function (value, key) {
+
+                        $http.get('http://localhost:1337/action?repairman=' + value.id )
+                            .then(function (data) {
+                                if (data.data[0] !== undefined) {
+
+                                    // console.log(data.data[0].stateAction.stateAction);
+                                    $scope.techniciens[key].text = data.data[0].stateAction.stateAction;
+                                }
+                                else
+                                    $scope.techniciens[key].text = "Disponible";
 
 
-                    $http.get('http://localhost:1337/action?repairman=' + value.id + '&stateAction=2')
-                        .then(function (data) {
-                            if (data.data[0] !== undefined) {
+                            }, function () {
+                                console.log("Erreur lors de l'appel de l'api")
+                            });
 
-                               // console.log(data.data[0].stateAction.stateAction);
-                                $scope.techniciens[key].text = data.data[0].stateAction.stateAction;
-                            }
-                            else
-                                $scope.techniciens[key].text = "Disponible";
-
-
-                        }, function () {
-                            console.log("Erreur lors de l'appel de l'api")
-                        });
-
+                    });
+                }, function () {
+                    console.log("error get techniciens")
                 });
+        };
 
-
-
-
-            }, function () {
-                console.log("error get techniciens")
-            });
-
+        $scope.refreshTechniciens();
 
         $scope.$watch("refreshVehicle", function () {
             $scope.getVehicle();
+        });
+        $scope.$watch("refreshTechnicians", function () {
+            $scope.refreshTechniciens();
         });
 
         $scope.deleteVehicle = function (v) {
@@ -214,9 +214,4 @@ angular.module('VehicleCtrl', [])
         $scope.trouver = function(){
             alert("hello its me");
         }
-
-
-
-
-
     }]);
