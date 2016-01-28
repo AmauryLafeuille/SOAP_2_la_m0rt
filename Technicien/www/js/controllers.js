@@ -16,6 +16,8 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
              sessionStorage.userLogin = userBdd.data[0].login;
              sessionStorage.userFirstname = userBdd.data[0].firstname;
              sessionStorage.userLastname = userBdd.data[0].lastname; 
+             console.log(sessionStorage.userLogin);
+             console.log(sessionStorage.userId);
               console.log("User connected");
               $window.location.href = '#/tab/info';
               $route.reload();
@@ -56,11 +58,14 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
     var successGetAction = function(action){
       $scope.actionGet = action.data;
       var action = action.data;
+
       angular.forEach(action, function(value, key) {
         $http.get('http://localhost:1337/immatricul/' + value.vehicle.immatricul).then(
           function(imma){
             $scope.actionGet[key].vehicle.stringimmatricul = imma.data.immatricul; 
           },function(){console.log('error get imma imma');})
+
+
         $http.get('http://localhost:1337/geolocalisation/' + value.vehicle.geolocalisation).then(
           function(geo){
             $scope.actionGet[key].vehicle.geolat= geo.data.latitude; 
@@ -73,6 +78,7 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
     var errorGetAction = function(){
       console.log("Erreur get action");
     };
+    console.log(sessionStorage.userId);
     $http.get('http://localhost:1337/action?repairman='+sessionStorage.userId)
     .then(successGetAction,errorGetAction);
   };
@@ -81,6 +87,7 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
   $scope.showVehicleOnMap = function(ac){
     var longitude = ac.geolon;
     var latitude = ac.geolat;
+    $scope.acceptTruck =true;
 //         var map = L.map('map').setView([44.8584622, -0.5730805], 13);
 
 
@@ -97,6 +104,23 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
 //     .openPopup();
 //   }
 }
+
+
+$scope.chooseThisTruck = function(ac){
+  var reqPut = {
+        method: 'PUT',
+        url: 'http://localhost:1337/action/'+ac.id,
+        data: {
+          stateAction: 3
+        }
+      };
+      $http(reqPut).then(function () {
+        console.log("modif action vehicle to En route et prise en charge")
+      }, function () {
+        console.log("modif action vehicle ko")
+      });
+
+    }
   $scope.getAction();
 
 
