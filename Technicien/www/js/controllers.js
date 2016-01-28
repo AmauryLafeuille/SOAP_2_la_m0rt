@@ -96,7 +96,7 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
 //     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
 //     .openPopup();
 //   }
-
+}
   $scope.getAction();
 
 
