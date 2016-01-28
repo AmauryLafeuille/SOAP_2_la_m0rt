@@ -6,22 +6,19 @@ angular.module('VehicleCtrl', [])
     .controller('VehicleCtrl', ['$scope', '$http', 'socket', function ($scope, $http, socket) {
 
         var map = L.map('map').setView([44.8584622, -0.5730805], 13);
-
+        var markers = [];
 
         var truckGreenIcon = L.icon({
             iconUrl: '/img/marker-repairman.png',
 
-            iconSize:     [125, 125], // size of the icon
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+            iconSize: [125, 125], // size of the icon
+            popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
         });
 
+        socket.on('send:vehicle', function () {
+            $scope.getVehicle();
+        });
 
-        socket.on('send:time', function (data) {
-            $scope.time = data.time;
-        });
-        socket.on('send:name', function (data) {
-            $scope.name = data.name;
-        });
 
         $scope.showForm = false;
         $scope.buttonShowHide = "Add Vehicle";
@@ -42,8 +39,6 @@ angular.module('VehicleCtrl', [])
 
 
         $scope.registerVehicle = function (vehicle) {
-
-
             var succesCreateVehicle = function (immatricul) {
                 var reqV = {
                     method: 'POST',
@@ -55,9 +50,9 @@ angular.module('VehicleCtrl', [])
                         immatricul: immatricul.data.id,
                         stateVehicle: 4,
                         levelBreakdown: 5,
-                        usedBy: 0,
-                    },
-                }
+                        usedBy: 0
+                    }
+                };
                 $http(reqV).then(function () {
                     $scope.refreshVehicle = !$scope.refreshVehicle;
                 }, function () {
@@ -77,15 +72,15 @@ angular.module('VehicleCtrl', [])
                     'Content-Type': undefined
                 },
                 data: {
-                    immatricul: vehicle.immatricul.immatricul,
+                    immatricul: vehicle.immatricul.immatricul
                 }
-            }
+            };
             $http(req).then(succesCreateVehicle, errorCreateVehicle);
         };
 
 
         $scope.gotoMap = function (latitude, longitude) {
-            if(latitude !== undefined && longitude !== undefined)
+            if (latitude !== undefined && longitude !== undefined)
                 map.setView([latitude, longitude], 13);
         };
 
@@ -96,7 +91,7 @@ angular.module('VehicleCtrl', [])
             } else {
                 $scope.buttonShowHide = "Add Vehicle";
             }
-        }
+        };
 
 
         $scope.assigner = function(action, user, stateAction){
@@ -130,44 +125,41 @@ angular.module('VehicleCtrl', [])
         $scope.getVehicle = function () {
             var successCallback = function (vehicle) {
 
-
                 $scope.vehicle = vehicle.data;
+
+                //Delete markers to reconstruct them
+                if (markers.length > 0) {
+                    for (var i = 0; i < markers.length; i++) {
+                        map.removeLayer(markers[i]);
+                    }
+                    markers = [];
+                }
+
                 angular.forEach($scope.vehicle, function (value, key) {
-
-
-
                     if (value.usedBy !== undefined && value.usedBy != null) {
-
-                        if (value.geolocalisation !== undefined && value.geolocalisation != null && value.usedBy.accountType == 2) {
-                            var marker = L.marker([value.geolocalisation.latitude, value.geolocalisation.longitude]/*,{icon: truckGreenIcon}*/).addTo(map);
+                        if (value.geolocalisation !== undefined && value.geolocalisation != null) {
+                            markers.push([value.geolocalisation.latitude, value.geolocalisation.longitude]);
+                            marker = L.marker([value.geolocalisation.latitude, value.geolocalisation.longitude]).addTo(map);
                             marker.bindPopup("<b>Immatriculation : " + value.immatricul.immatricul + "</b><br>Conduit par " + value.usedBy.firstname + " " + value.usedBy.lastname + "<br />Etat : " + value.stateVehicle.stateVehicle).openPopup();
-
                         }
+
                         $http.get('http://localhost:1337/accountType/' + value.usedBy.accountType)
                             .then(function (at) {
-
-
                                 $scope.vehicle[key].usedBy.accountType = at.data.accountType;
                             }, function () {
-                                console.log("Impossible de recuprer le type de compte");
+                                console.log("Impossible de recupérer le type de compte");
                             }
                         );
                     }
                 });
-
-
-                //  console.log(vehicle.data);
-            }
+            };
 
             var errorCallback = function (vehicle) {
                 console.log("Erreur");
-            }
-
+            };
             $http.get('http://localhost:1337/vehicle')
                 .then(successCallback, errorCallback);
-
-
-        }
+        };
 
         $scope.getVehicle();
 
@@ -204,19 +196,19 @@ angular.module('VehicleCtrl', [])
             });
 
 
-        $scope.$watch("refreshVehicle",function(){
+        $scope.$watch("refreshVehicle", function () {
             $scope.getVehicle();
-        })
+        });
 
         $scope.deleteVehicle = function (v) {
             $http.delete('http://localhost:1337/vehicle/' + v.id)
                 .then(function () {
-                    console.log("Delete vehicle ok")
+                    console.log("Delete vehicle ok");
                     $scope.refreshVehicle = !$scope.refreshVehicle;
                 }, function () {
                     console.log("delete vehicle ko")
                 });
-        }
+        };
 
 
         $scope.trouver = function(){
