@@ -16,7 +16,6 @@ angular.module('VehicleCtrl', [])
         });
 
         socket.on('send:vehicle', function () {
-            console.log('socket');
             $scope.getVehicle();
         });
 
@@ -147,17 +146,17 @@ angular.module('VehicleCtrl', [])
 
         $scope.$watch("refreshVehicle", function () {
             $scope.getVehicle();
-        })
+        });
 
         $scope.deleteVehicle = function (v) {
             $http.delete('http://localhost:1337/vehicle/' + v.id)
                 .then(function () {
-                    console.log("Delete vehicle ok")
+                    console.log("Delete vehicle ok");
                     $scope.refreshVehicle = !$scope.refreshVehicle;
                 }, function () {
                     console.log("delete vehicle ko")
                 });
-        }
+        };
 
         $http.get('http://localhost:1337/action?repairman=' + 3 + '&stateAction=2')
             .then(function (data) {
