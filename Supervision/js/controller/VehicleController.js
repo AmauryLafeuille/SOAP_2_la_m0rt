@@ -93,6 +93,35 @@ angular.module('VehicleCtrl', [])
             }
         };
 
+
+        $scope.assigner = function(action, user, stateAction){
+
+            var successCallback = function(user){
+                console.log("Success");
+
+            };
+
+            var errorCallback = function(user){
+                console.log("Erreur");
+            };
+
+            var req = {
+                method: 'POST',
+                url: 'http://localhost:1337/action',
+                headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    vehicle: action,
+                    repairman : user,
+                    stateAction : stateAction
+                }
+            }
+            $http(req).then(successCallback,errorCallback);
+        };
+
+
+
         $scope.getVehicle = function () {
             var successCallback = function (vehicle) {
 
@@ -139,6 +168,29 @@ angular.module('VehicleCtrl', [])
             .then(function (data) {
                 $scope.techniciens = data.data;
 
+                angular.forEach($scope.techniciens, function (value, key) {
+
+
+                    $http.get('http://localhost:1337/action?repairman=' + value.id + '&stateAction=2')
+                        .then(function (data) {
+                            if (data.data[0] !== undefined) {
+
+                               // console.log(data.data[0].stateAction.stateAction);
+                                $scope.techniciens[key].text = data.data[0].stateAction.stateAction;
+                            }
+                            else
+                                $scope.techniciens[key].text = "Disponible";
+
+
+                        }, function () {
+                            console.log("Erreur lors de l'appel de l'api")
+                        });
+
+                });
+
+
+
+
             }, function () {
                 console.log("error get techniciens")
             });
@@ -158,12 +210,13 @@ angular.module('VehicleCtrl', [])
                 });
         };
 
-        $http.get('http://localhost:1337/action?repairman=' + 3 + '&stateAction=2')
-            .then(function (data) {
-                console.log("OK");
-            }, function () {
-                console.log("Erreur lors de l'appel de l'api")
-            });
+
+        $scope.trouver = function(){
+            alert("hello its me");
+        }
+
+
+
 
 
     }]);

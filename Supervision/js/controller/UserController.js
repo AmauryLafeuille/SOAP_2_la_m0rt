@@ -37,7 +37,7 @@ $scope.buttonShowHide = "Add User";
 
 
       $scope.deconnection = function(){
-      	console.log("Déconnection");
+      	console.log("Déconnexion");
       	sessionStorage.clear();
       	$route.reload();
       };
@@ -66,7 +66,7 @@ $scope.buttonShowHide = "Add User";
 
             $scope.addUser = function(){
           var succesShowUsers = function(users){
-               $scope.users = users.data;
+              $scope.users = users.data;
           }
           var errorShowUsers = function(users){
 
