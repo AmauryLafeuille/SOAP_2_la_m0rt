@@ -81,21 +81,21 @@ angular.module('starter.controllers', ['ngToast','ngRoute'])
   $scope.showVehicleOnMap = function(ac){
     var longitude = ac.geolon;
     var latitude = ac.geolat;
-        var map = L.map('map').setView([44.8584622, -0.5730805], 13);
+//         var map = L.map('map').setView([44.8584622, -0.5730805], 13);
 
 
-     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            maxZoom: 18,
-            id: 'pedroc.on2148bk',
-            accessToken: 'pk.eyJ1IjoicGVkcm9jIiwiYSI6ImNpamZrMjczdzAwMGd2bGx4ZWJyYTh3NTIifQ.RJ8GQ1EoWKL_OPdVR-HQEA'
-        }).addTo(map);
+//      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+//             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//             maxZoom: 18,
+//             id: 'pedroc.on2148bk',
+//             accessToken: 'pk.eyJ1IjoicGVkcm9jIiwiYSI6ImNpamZrMjczdzAwMGd2bGx4ZWJyYTh3NTIifQ.RJ8GQ1EoWKL_OPdVR-HQEA'
+//         }).addTo(map);
 
-//L.marker([51.5, -0.09]).addTo(map)
-L.marker([latitude, longitude]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
-  }
+// //L.marker([51.5, -0.09]).addTo(map)
+// L.marker([latitude, longitude]).addTo(map)
+//     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+//     .openPopup();
+//   }
 
   $scope.getAction();
 
